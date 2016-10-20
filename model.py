@@ -106,7 +106,12 @@ class DCGAN(object):
         sample_input_images = np.array(sample_inputs).astype(np.float32)
 
         save_images(sample_input_images, [8, 8], './samples/inputs_small.png')
+        for i in range(len(sample_input_images)):
+            imsave2(sample_input_images[i],'./samples/input_small_%d.png' % (i,))
+
         save_images(sample_images, [8, 8], './samples/reference.png')
+        for i in range(len(sample_images)):
+            imsave2(sample_images[i],'./samples/reference_%d.png' % (i,))
 
         counter = 1
         start_time = time.time()
@@ -148,6 +153,11 @@ class DCGAN(object):
                     if not have_saved_inputs:
                         save_images(up_inputs, [8, 8], './samples/inputs.png')
                         have_saved_inputs = True
+
+                    for i in range(len(samples)):
+                        print samples[i].shape
+                        imsave2(samples[i],'./samples/valid_%s_%s_%d.png' % (epoch, idx,i))
+                        # save_images(samples,[1,1])
                     save_images(samples, [8, 8],
                                 './samples/valid_%s_%s.png' % (epoch, idx))
                     print("[Sample] g_loss: %.8f" % (g_loss))
