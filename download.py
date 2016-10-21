@@ -72,7 +72,6 @@ def download_celeb_a(dirpath):
         zf.extractall(dirpath)
     os.remove(filepath)
 
-    # now split data into train/valid/test
     train_dir = os.path.join(dirpath, zip_dir, 'train')
     valid_dir = os.path.join(dirpath, zip_dir, 'valid')
     test_dir = os.path.join(dirpath, zip_dir, 'test')
@@ -171,3 +170,4 @@ if __name__ == '__main__':
         download_lsun('./data')
     if 'mnist' in args.datasets:
         download_mnist('./data')
+

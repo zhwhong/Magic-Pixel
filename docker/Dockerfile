@@ -50,3 +50,4 @@ RUN pip --no-cache-dir install \
 EXPOSE 6006
 # IPython
 EXPOSE 8888
+

@@ -23,6 +23,7 @@ def PS(X, r, color=False):
         X = _phase_shift(X, r)
     return X
 
+
 if __name__ == "__main__":
     with tf.Session() as sess:
         x = np.arange(2*16*16).reshape(2, 8, 8, 4)
@@ -37,3 +38,4 @@ if __name__ == "__main__":
         print y2.shape
     plt.imshow(y[0, :, :, 0], interpolation="none")
     plt.show()
+
