@@ -41,7 +41,8 @@ def main(_):
         if FLAGS.is_train:
             dcgan.train(FLAGS)
         else:
-            dcgan.load(FLAGS.checkpoint_dir)
+            # dcgan.load(FLAGS.checkpoint_dir)
+            dcgan.test(FLAGS.checkpoint_dir)
 
         if FLAGS.visualize:
             to_json("./web/js/layers.js", [dcgan.h0_w, dcgan.h0_b, dcgan.g_bn0],

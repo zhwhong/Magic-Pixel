@@ -106,13 +106,15 @@ class DCGAN(object):
         sample_input_images = np.array(sample_inputs).astype(np.float32)
 
         save_images(sample_input_images, [8, 8], './samples/inputs_small.png')
+        '''
         for i in range(len(sample_input_images)):
             imsave2(sample_input_images[i],'./samples/input_small_%d.png' % (i,))
-
+        '''
         save_images(sample_images, [8, 8], './samples/reference.png')
+        '''
         for i in range(len(sample_images)):
             imsave2(sample_images[i],'./samples/reference_%d.png' % (i,))
-
+        '''
         counter = 1
         start_time = time.time()
 
@@ -154,10 +156,13 @@ class DCGAN(object):
                         save_images(up_inputs, [8, 8], './samples/inputs.png')
                         have_saved_inputs = True
 
+                    '''
                     for i in range(len(samples)):
                         print samples[i].shape
                         imsave2(samples[i],'./samples/valid_%s_%s_%d.png' % (epoch, idx,i))
+   
                         # save_images(samples,[1,1])
+                    '''
                     save_images(samples, [8, 8],
                                 './samples/valid_%s_%s.png' % (epoch, idx))
                     print("[Sample] g_loss: %.8f" % (g_loss))
@@ -203,3 +208,41 @@ class DCGAN(object):
             return True
         else:
             return False
+
+    def test(self, checkpoint_dir):
+        if self.load(checkpoint_dir):
+            print(" [*] Load ckeckpoint successfully!!!")
+        else:
+            print(" [!] Load checkpoint failed...")
+            return 
+
+        data = sorted(glob(os.path.join("./data", self.dataset_name, "test", "*.jpg")))
+        batch_idxs = len(data) // self.batch_size
+
+        have_saved_inputs = False
+
+        for idx in xrange(0, batch_idxs):
+            batch_files = data[idx*self.batch_size:(idx+1)*self.batch_size]
+            batch = [get_image(batch_file, self.image_size, is_crop=self.is_crop) for batch_file in batch_files]
+            input_batch = [doresize(xx, [self.input_size,]*2) for xx in batch]
+            batch_images = np.array(batch).astype(np.float32)
+            batch_inputs = np.array(input_batch).astype(np.float32)
+
+            
+            samples, g_loss, up_inputs = self.sess.run(
+                [self.G, self.g_loss, self.up_inputs],
+                feed_dict={ self.inputs: batch_inputs, self.images: batch_images }
+            )
+
+            if not have_saved_inputs:
+                save_images(up_inputs, [8, 8], './samples/inputs.png')
+                have_saved_inputs = True
+
+            
+            for i in range(len(samples)):
+                print samples[i].shape
+                imsave2(samples[i],'./samples/test_%s_%d.png' % (idx,i))
+            
+            save_images(samples, [8, 8],
+                        './samples/test_%s.png' % (idx))
+            print("[Sample] g_loss: %.8f" % (g_loss))
