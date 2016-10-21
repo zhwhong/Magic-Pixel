@@ -89,3 +89,5 @@ ENV/
 .ropeproject
 
 data/
+checkpoint/
+ckpt_back/
