@@ -91,3 +91,5 @@ ENV/
 data/
 checkpoint/
 ckpt_back/
+samples/
+logs/
