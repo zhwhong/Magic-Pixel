@@ -30,18 +30,27 @@ def main(_):
         os.makedirs(FLAGS.sample_dir)
 
     with tf.Session() as sess:
+        """
         if FLAGS.dataset == 'mnist':
             dcgan = DCGAN(sess, image_size=FLAGS.image_size, batch_size=FLAGS.batch_size, y_dim=10,
                     dataset_name=FLAGS.dataset, is_crop=FLAGS.is_crop, checkpoint_dir=FLAGS.checkpoint_dir)
         else:
-            dcgan = DCGAN(sess, image_size=FLAGS.image_size, batch_size=FLAGS.batch_size,
-                    dataset_name=FLAGS.dataset, is_crop=FLAGS.is_crop, checkpoint_dir=FLAGS.checkpoint_dir)
+        """
+        if FLAGS.dataset != 'celebA':
+            print "The data set 'celebA' is not available"
+            return
 
         if FLAGS.is_train:
-            dcgan.train(FLAGS)
+                dcgan = DCGAN(sess, image_size=FLAGS.image_size, batch_size=FLAGS.batch_size,
+                    dataset_name=FLAGS.dataset, is_crop=FLAGS.is_crop, checkpoint_dir=FLAGS.checkpoint_dir)
+                dcgan.train(FLAGS)
         else:
-            # dcgan.load(FLAGS.checkpoint_dir)
-            dcgan.test(FLAGS.checkpoint_dir)
+            #dcgan = DCGAN(sess, image_size=FLAGS.image_size, batch_size=FLAGS.batch_size,
+            #              dataset_name=FLAGS.dataset, is_crop=FLAGS.is_crop, checkpoint_dir=FLAGS.checkpoint_dir, out_size=1)
+            #dcgan.single_test(FLAGS.checkpoint_dir)
+            dcgan = DCGAN(sess, image_size=FLAGS.image_size, batch_size=FLAGS.batch_size,
+                          dataset_name=FLAGS.dataset, is_crop=FLAGS.is_crop, checkpoint_dir=FLAGS.checkpoint_dir)
+            dcgan.batch_test(FLAGS.checkpoint_dir)
         """
         if FLAGS.visualize:
             to_json("./web/js/layers.js", [dcgan.h0_w, dcgan.h0_b, dcgan.g_bn0],
