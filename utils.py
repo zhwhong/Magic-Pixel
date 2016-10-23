@@ -3,7 +3,7 @@ Some codes from https://github.com/Newmu/dcgan_code
 """
 from __future__ import division
 import math
-import json
+# import json
 import random
 import pprint
 import scipy.misc

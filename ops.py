@@ -1,10 +1,8 @@
-import math
-import numpy as np 
+# import math
+# import numpy as np
 import tensorflow as tf
-
 from tensorflow.python.framework import ops
-
-from utils import *
+# from utils import *
 
 
 class batch_norm(object):

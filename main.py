@@ -42,7 +42,7 @@ def main(_):
         else:
             # dcgan.load(FLAGS.checkpoint_dir)
             dcgan.test(FLAGS.checkpoint_dir)
-
+        """
         if FLAGS.visualize:
             to_json("./web/js/layers.js", [dcgan.h0_w, dcgan.h0_b, dcgan.g_bn0],
                                           [dcgan.h1_w, dcgan.h1_b, dcgan.g_bn1],
@@ -53,6 +53,7 @@ def main(_):
             # Below is codes for visualization
             OPTION = 2
             visualize(sess, dcgan, FLAGS, OPTION)
+        """
 
 if __name__ == '__main__':
     tf.app.run()

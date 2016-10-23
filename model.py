@@ -160,7 +160,6 @@ class DCGAN(object):
                     for i in range(len(samples)):
                         print samples[i].shape
                         imsave2(samples[i],'./samples/valid_%s_%s_%d.png' % (epoch, idx,i))
-   
                         # save_images(samples,[1,1])
                     '''
                     save_images(samples, [8, 8],
@@ -218,8 +217,9 @@ class DCGAN(object):
 
         data = sorted(glob(os.path.join("./data", self.dataset_name, "test", "*.jpg")))
         batch_idxs = len(data) // self.batch_size
-
-        have_saved_inputs = False
+        print "Test data length: %d" % (len(data))
+        print "Batch size: %d" % (self.batch_size,)
+        print "The test data are divided into %d batches!" % (batch_idxs,)
 
         for idx in xrange(0, batch_idxs):
             batch_files = data[idx*self.batch_size:(idx+1)*self.batch_size]
@@ -228,21 +228,27 @@ class DCGAN(object):
             batch_images = np.array(batch).astype(np.float32)
             batch_inputs = np.array(input_batch).astype(np.float32)
 
-            
+            save_images(batch_inputs, [8, 8], './samples/batch_%d_small_inputs.png'%(idx+1,))
+            '''
+            for i in range(len(batch_inputs)):
+                imsave2(batch_inputs[i],'./samples/batch_%d_small_inputs_%d.png' % (idx+1,i))
+            '''
+            save_images(batch_images, [8, 8], './samples/batch_%d_reference.png'%(idx+1,))
+            '''
+            for i in range(len(batch_images)):
+                imsave2(batch_images[i],'./samples/batch_%d_reference_%d.png' % (idx+1,i))
+            '''
+
             samples, g_loss, up_inputs = self.sess.run(
                 [self.G, self.g_loss, self.up_inputs],
                 feed_dict={ self.inputs: batch_inputs, self.images: batch_images }
             )
 
-            if not have_saved_inputs:
-                save_images(up_inputs, [8, 8], './samples/inputs.png')
-                have_saved_inputs = True
+            save_images(up_inputs, [8, 8], './samples/batch_%d_scale_straight.png'%(idx+1,))
+            save_images(samples, [8, 8], './samples/batch_%d_test.png' % (idx+1,))
 
-            
             for i in range(len(samples)):
-                print samples[i].shape
-                imsave2(samples[i],'./samples/test_%s_%d.png' % (idx,i))
-            
-            save_images(samples, [8, 8],
-                        './samples/test_%s.png' % (idx))
-            print("[Sample] g_loss: %.8f" % (g_loss))
+                # print samples[i].shape
+                imsave2(samples[i],'./samples/batch_%d_test_%d.png' % (idx+1, i))
+
+            print("[Test batch %d] g_loss: %.8f" % (idx+1, g_loss))
