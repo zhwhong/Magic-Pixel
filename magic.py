@@ -1,3 +1,4 @@
+import os
 import scipy.misc
 import tensorflow as tf
 import Image
@@ -14,6 +15,9 @@ def deal_image(input, x1, y1, x2, y2):
 	tmp_path = 'tmp/'+fname
 	inp.save(tmp_path)
 	#transfer 
+	os.system('python main.py --is_single True')
+	os.system('rm tmp/*')
 	#outpath = transfer(tmp_path)
-	outpath="out.jpg"
+	outpath="out_%s" % fname
+	print outpath
 	return outpath
