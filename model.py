@@ -8,6 +8,7 @@ import scipy.misc
 from six.moves import xrange
 from scipy.misc import imresize
 from subpixel import PS
+from segmention import splitImage
 from ops import *
 from utils import *
 
@@ -200,6 +201,10 @@ class DCGAN(object):
             return False
 
     def batch_test(self, checkpoint_dir):
+        """
+        input ->n*128*128
+        output -> n*128*128
+        """
         if self.load(checkpoint_dir):
             print(" [*] Load ckeckpoint successfully!!!")
         else:
@@ -283,6 +288,10 @@ class DCGAN(object):
 
 
     def batch_test2(self, checkpoint_dir):
+        """
+        input ->n*32*32
+        output -> n*128*128
+        """
         if self.load(checkpoint_dir):
             print(" [*] Load ckeckpoint successfully!!!")
         else:
@@ -336,6 +345,41 @@ class DCGAN(object):
             for i in range(batch_remain):
                 # print samples[i].shape
                 imsave2(samples[i], './samples/batch_remain_test_out_%d.jpg' % (i,))
+
+    def batch_test3(self, checkpoint_dir):
+        """
+        input ->n*256*256
+        output -> n*1024*1024
+        """
+        if self.load(checkpoint_dir):
+            print(" [*] Load ckeckpoint successfully!!!")
+        else:
+            print(" [!] Load checkpoint failed...")
+            return
+
+        data = sorted(glob(os.path.join("./data", self.dataset_name, "test", "*.jpg")))
+        batch_idxs = len(data)
+
+        print "Test data length: %d" % (len(data))
+        print "Test data size: [256,256,3]"
+
+        for idx in xrange(0, batch_idxs):
+            print "Process image %d ..." % (idx+1, )
+            batch_file = data[idx]
+            batch = splitImage(batch_file)
+            batch_inputs = np.array(batch).astype(np.float32)
+
+            save_images(batch_inputs, [8, 8], './samples/batch_%d_small_inputs.jpg' % (idx + 1,))
+
+            samples, up_inputs = self.sess.run(
+                [self.G, self.up_inputs],
+                feed_dict={ self.inputs: batch_inputs}
+            )
+
+            save_images(up_inputs, [8, 8], './samples/batch_%d_scale_straight.jpg'%(idx+1,))
+            save_images(samples, [8, 8], './samples/batch_%d_test_out.jpg' % (idx+1,))
+
+        print "Process all %d images successfully !!!" % (batch_idxs,)
 
 
     """
