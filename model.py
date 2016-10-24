@@ -4,7 +4,8 @@ import time
 from glob import glob
 import tensorflow as tf
 import numpy as np
-import scipy.misc
+# import scipy.misc
+import pickle
 from six.moves import xrange
 from scipy.misc import imresize
 from subpixel import PS
@@ -16,6 +17,10 @@ def doresize(x, shape):
     x = np.copy((x+1.)*127.5).astype("uint8")
     y = imresize(x, shape)
     return y
+
+def doresize2(x, shape):
+    x = np.copy((x+1.)*127.5).astype("uint8")
+    return x
 
 class DCGAN(object):
     def __init__(self, sess, image_size=128, is_crop=True,
@@ -200,6 +205,7 @@ class DCGAN(object):
         else:
             return False
 
+
     def batch_test(self, checkpoint_dir):
         """
         input ->n*128*128
@@ -211,7 +217,7 @@ class DCGAN(object):
             print(" [!] Load checkpoint failed...")
             return
 
-        data = sorted(glob(os.path.join("./data", self.dataset_name, "test", "*.jpg")))
+        data = sorted(glob(os.path.join("./data", self.dataset_name, "test_old", "*.jpg")))
         batch_idxs = len(data) // self.batch_size
         batch_remain = len(data) % self.batch_size
         print "Test data length: %d" % (len(data))
@@ -226,15 +232,26 @@ class DCGAN(object):
             batch_images = np.array(batch).astype(np.float32)
             batch_inputs = np.array(input_batch).astype(np.float32)
 
-            save_images(batch_inputs, [8, 8], './samples/batch_%d_small_inputs.jpg'%(idx+1,))
-            '''
+            save_images(batch_inputs, [8, 8], './samples/batch_%d_small_inputs.png'%(idx+1,))
+            #print '1111111111111111'
+            #print batch_inputs[0]
+            #print '2222222222222222'
+            #imsave2(batch_inputs[0], './samples/ttt.jpg')
+            #print imread('./samples/ttt.jpg')
+
             for i in range(len(batch_inputs)):
-                imsave2(batch_inputs[i],'./samples/batch_%d_small_inputs_%d.jpg' % (idx+1,i))
-            '''
-            save_images(batch_images, [8, 8], './samples/batch_%d_reference.jpg'%(idx+1,))
+                imsave2(batch_inputs[i],'./samples/small/batch_%02d_small_inputs_%d.png' % (idx+1,i))
+            # f = open('a.pkl','wb')
+            # pickle.dump(batch_inputs, f)
+            # f.close()
+
+            print '11111111111111111'
+            print batch_inputs[0]
+
+            save_images(batch_images, [8, 8], './samples/batch_%d_reference.png'%(idx+1,))
             '''
             for i in range(len(batch_images)):
-                imsave2(batch_images[i],'./samples/batch_%d_reference_%d.jpg' % (idx+1,i))
+                imsave2(batch_images[i],'./samples/batch_%d_reference_%d.png' % (idx+1,i))
             '''
 
             samples, g_loss, up_inputs = self.sess.run(
@@ -242,14 +259,47 @@ class DCGAN(object):
                 feed_dict={ self.inputs: batch_inputs, self.images: batch_images }
             )
 
-            save_images(up_inputs, [8, 8], './samples/batch_%d_scale_straight.jpg'%(idx+1,))
-            save_images(samples, [8, 8], './samples/batch_%d_test_out.jpg' % (idx+1,))
+            save_images(up_inputs, [8, 8], './samples/batch_%d_scale_straight.png'%(idx+1,))
+            save_images(samples, [8, 8], './samples/batch_%d_test_out.png' % (idx+1,))
 
+            """
             for i in range(len(samples)):
                 # print samples[i].shape
-                imsave2(samples[i],'./samples/batch_%d_test_out_%d.jpg' % (idx+1, i))
+                imsave2(samples[i],'./samples/batch_%d_test_out_%d.png' % (idx+1, i))
+            """
 
             print("[Test batch %d] g_loss: %.8f" % (idx+1, g_loss))
+
+            # data = sorted(glob("./samples/small/", "*.jpg"))
+            data = sorted(glob(os.path.join("./samples", "small", "*.png")))
+            batch_idxs = len(data) // self.batch_size
+            batch_remain = len(data) % self.batch_size
+            idx = 0
+
+            batch_files = data[idx * self.batch_size:(idx + 1) * self.batch_size]
+            batch = [get_image2(batch_file) for batch_file in batch_files]
+            batch_inputs = np.array(batch).astype(np.float32)
+
+            #f2 = open('a.pkl','rb')
+            #batch_inputs = pickle.load(f2)
+            #f2.close()
+
+            print '222222222222222222'
+            print batch_inputs[0]
+
+            # save_images(batch_inputs, [8, 8], './samples/batch_%d_small_inputs.jpg' % (idx + 1,))
+
+            samples, up_inputs = self.sess.run(
+                [self.G, self.up_inputs],
+                feed_dict={self.inputs: batch_inputs}
+            )
+
+            # save_images(up_inputs, [8, 8], './samples/batch_%d_scale_straight.jpg' % (idx + 1,))
+            save_images(samples, [8, 8], './samples/111111111111.png')
+
+            #for i in range(len(samples)):
+                # print samples[i].shape
+            #    imsave2(samples[i], './samples/batch_%d_test_out_%d.jpg' % (idx + 1, i))
 
         if batch_remain > 0:
             batch_files = data[batch_idxs * self.batch_size: len(data)]
@@ -286,7 +336,6 @@ class DCGAN(object):
 
             print("[Batch remain] g_loss: %.8f" % (g_loss,))
 
-
     def batch_test2(self, checkpoint_dir):
         """
         input ->n*32*32
@@ -298,7 +347,7 @@ class DCGAN(object):
             print(" [!] Load checkpoint failed...")
             return
 
-        data = sorted(glob(os.path.join("./data", self.dataset_name, "test", "*.jpg")))
+        data = sorted(glob(os.path.join("./data", self.dataset_name, "test", "*.png")))
         batch_idxs = len(data) // self.batch_size
         batch_remain = len(data) % self.batch_size
         print "Test data length: %d" % (len(data))
@@ -311,19 +360,19 @@ class DCGAN(object):
             batch = [get_image2(batch_file) for batch_file in batch_files]
             batch_inputs = np.array(batch).astype(np.float32)
 
-            save_images(batch_inputs, [8, 8], './samples/batch_%d_small_inputs.jpg' % (idx + 1,))
+            save_images(batch_inputs, [8, 8], './samples/batch_%d_small_inputs.png' % (idx + 1,))
 
             samples, up_inputs = self.sess.run(
                 [self.G, self.up_inputs],
                 feed_dict={ self.inputs: batch_inputs}
             )
 
-            save_images(up_inputs, [8, 8], './samples/batch_%d_scale_straight.jpg'%(idx+1,))
-            save_images(samples, [8, 8], './samples/batch_%d_test_out.jpg' % (idx+1,))
+            save_images(up_inputs, [8, 8], './samples/batch_%d_scale_straight.png'%(idx+1,))
+            save_images(samples, [8, 8], './samples/batch_%d_test_out.png' % (idx+1,))
 
             for i in range(len(samples)):
                 # print samples[i].shape
-                imsave2(samples[i],'./samples/batch_%d_test_out_%d.jpg' % (idx+1, i))
+                imsave2(samples[i],'./samples/batch_%d_test_out_%d.png' % (idx+1, i))
 
         if batch_remain > 0:
             batch_files = data[batch_idxs * self.batch_size: len(data)]
@@ -332,19 +381,20 @@ class DCGAN(object):
             batch = np.concatenate((batch, img_zero))
             batch_inputs = np.array(batch).astype(np.float32)
 
-            save_images(batch_inputs, [8, 8], './samples/batch_remain_small_inputs.jpg')
+            save_images(batch_inputs, [8, 8], './samples/batch_remain_small_inputs.png')
 
             samples, up_inputs = self.sess.run(
                 [self.G, self.up_inputs],
                 feed_dict={self.inputs: batch_inputs}
             )
 
-            save_images(up_inputs, [8, 8], './samples/batch_remain_scale_straight.jpg')
-            save_images(samples, [8, 8], './samples/batch_remain_test_out.jpg')
+            save_images(up_inputs, [8, 8], './samples/batch_remain_scale_straight.png')
+            save_images(samples, [8, 8], './samples/batch_remain_test_out.png')
 
             for i in range(batch_remain):
                 # print samples[i].shape
-                imsave2(samples[i], './samples/batch_remain_test_out_%d.jpg' % (i,))
+                imsave2(samples[i], './samples/batch_remain_test_out_%d.png' % (i,))
+
 
     def batch_test3(self, checkpoint_dir):
         """
@@ -357,7 +407,7 @@ class DCGAN(object):
             print(" [!] Load checkpoint failed...")
             return
 
-        data = sorted(glob(os.path.join("./data", self.dataset_name, "test", "*.jpg")))
+        data = sorted(glob(os.path.join("./data", self.dataset_name, "test", "*.png")))
         batch_idxs = len(data)
 
         print "Test data length: %d" % (len(data))
@@ -369,22 +419,22 @@ class DCGAN(object):
             batch = splitImage(batch_file)
             batch_inputs = np.array(batch).astype(np.float32)
 
-            save_images(batch_inputs, [8, 8], './samples/batch_%d_small_inputs.jpg' % (idx + 1,))
+            save_images(batch_inputs, [8, 8], './samples/batch_%d_small_inputs.png' % (idx + 1,))
 
             samples, up_inputs = self.sess.run(
                 [self.G, self.up_inputs],
                 feed_dict={ self.inputs: batch_inputs}
             )
 
-            save_images(up_inputs, [8, 8], './samples/batch_%d_scale_straight.jpg'%(idx+1,))
-            save_images(samples, [8, 8], './samples/batch_%d_test_out.jpg' % (idx+1,))
+            save_images(up_inputs, [8, 8], './samples/batch_%d_scale_straight.png'%(idx+1,))
+            save_images(samples, [8, 8], './samples/batch_%d_test_out.png' % (idx+1,))
 
         print "Process all %d images successfully !!!" % (batch_idxs,)
 
     def single_test(self, checkpoint_dir):
         """
-        input ->n*32*32
-        output -> n*128*128
+        input ->1*32*32
+        output -> 1*128*128
         """
         if self.load(checkpoint_dir):
             print(" [*] Load ckeckpoint successfully!!!")
@@ -392,7 +442,7 @@ class DCGAN(object):
             print(" [!] Load checkpoint failed...")
             return
 
-        data = glob(os.path.join("./tmp", "*.jpg"))
+        data = glob(os.path.join("./tmp", "*.png"))
         batch_idxs = len(data) // self.batch_size
         batch_remain = len(data) % self.batch_size
         print "Test data length: %d" % (len(data))
@@ -407,51 +457,11 @@ class DCGAN(object):
             batch = np.concatenate((batch, img_zero))
             batch_inputs = np.array(batch).astype(np.float32)
 
-            # save_images(batch_inputs, [8, 8], './samples/batch_remain_small_inputs.jpg')
-
             samples, up_inputs = self.sess.run(
                 [self.G, self.up_inputs],
                 feed_dict={self.inputs: batch_inputs}
             )
 
-            # save_images(up_inputs, [8, 8], './samples/batch_remain_scale_straight.jpg')
-            # save_images(samples, [8, 8], './samples/batch_remain_test_out.jpg')
-
             for i in range(batch_remain):
                 # print samples[i].shape
                 imsave2(samples[i], './uploads/out_%s' % data[0].split('/')[-1])
-
-    """
-    def single_test(self, checkpoint_dir):
-        if self.load(checkpoint_dir):
-            print(" [*] Load ckeckpoint successfully!!!")
-        else:
-            print(" [!] Load checkpoint failed...")
-            return
-
-        data = sorted(glob(os.path.join("./data", self.dataset_name, "test", "*.jpg")))
-        idxs = len(data)
-        print "Test data length: %d" % (idxs)
-
-        for idx in xrange(0, idxs):
-            files = data[idx:idx+1]
-
-            image = [get_image(file, self.image_size, is_crop=self.is_crop) for file in files]
-            input_image = [doresize(xx, [self.input_size, ] * 2) for xx in image]
-
-            image = np.array(image).astype(np.float32)
-            input_image = np.array(input_image).astype(np.float32)
-
-            imsave2(input_image[0], './samples/input_%d.jpg' % (idx,))
-            imsave2(image[0], './samples/reference_%d.jpg' % (idx,))
-
-            sample, g_loss, up_input = self.sess.run(
-                [self.G, self.g_loss, self.up_inputs],
-                feed_dict={ self.inputs: input_image, self.images: image }
-            )
-
-            imsave2(up_input[0], './samples/scale_straight_%d.jpg' % (idx,))
-            imsave2(sample[0], './samples/test_out_%d.jpg' % (idx,))
-
-            print("[Test batch %d] g_loss: %.8f" % (idx+1, g_loss))
-    """
