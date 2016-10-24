@@ -27,6 +27,7 @@
                 				 alert(data.result)
                     				$("#result").attr("src",data.result);
                 			}
+
                 		});
              		});
         		});
@@ -36,11 +37,20 @@
   </script>
 </head>
 <body>
+        <div id="banner">
+           <img src="{{ url_for('static', filename='img/title.png') }}"  id= "banner-img">
+        </div>
+        <div id="left">
+           <img src="{{ url_for('static', filename='img/ls.png') }}" width="400px"  id= "ls">
+        </div>
+        <div id="right">
+           <img src="{{ url_for('static', filename='img/xg.png') }}" width="400px" id= "xg">
+        </div>
         <div id = "top">
 
         <form action="{{ url_for('upload') }}" method="post"  enctype="multipart/form-data" id="form1">
-            <input type="file" name="photo" style="width:250px;" />
-            <input type="submit" name="Submit" value="Upload" />
+            <input type="file"  class="btn" name="photo" style="width:250px;" />
+            <input type="submit"  class="btn" name="Submit" value="Upload" />
         </form>
 
         </div>        
@@ -69,7 +79,7 @@
         <label><input type="hidden" size="4" id="y2" name="y2" /></label>
         <label><input type="hidden" size="4" id="w" name="w" /></label>
         <label><input type="hidden" size="4" id="h" name="h" /></label>
-        <input type="button" name="Submit" id = "Submit" value="Magic" />
+        <img width="100px" rotate="3" src="{{ url_for('static', filename='img/jiantou.png') }}" id = "Submit" ">  
       </div>
 
   </form>

@@ -36,6 +36,7 @@
   width: 350px;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 10px;
 }
 #imgPlace{
   margin-left: auto;
@@ -43,6 +44,27 @@
 }
 
 #coords{
+  margin-top:30px;
   margin-left: auto;
   margin-right: auto;
+}
+
+#banner,#banner-img{
+  width: 800px;
+  margin:0 auto 0 auto;
+}
+
+#ls,#xg{
+  position: fixed;
+  bottom: 0;
+  clear: both;
+}
+#ls{
+  left: 0;
+}
+#xg{
+  right: 0;
+}
+#preview-pane{
+  margin-bottom: 100px;
 }
