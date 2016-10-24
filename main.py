@@ -48,7 +48,7 @@ def main(_):
             elif FLAGS.is_small:
                 dcgan.batch_test2(FLAGS.checkpoint_dir)
             else:
-                dcgan.batch_test3(FLAGS.checkpoint_dir)
+                dcgan.batch_test(FLAGS.checkpoint_dir, FLAGS.file_name)
             # dcgan.load(FLAGS.checkpoint_dir)
             # dcgan.single_test(FLAGS.checkpoint_dir)
             # dcgan.batch_test(FLAGS.checkpoint_dir)
