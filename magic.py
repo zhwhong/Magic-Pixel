@@ -1,7 +1,9 @@
 import os
 import scipy.misc
 import tensorflow as tf
-import Image
+# import Image
+from PIL import Image
+
 def deal_image(input, x1, y1, x2, y2):
 	fname = input.split('/')[-1]
 	a = scipy.misc.imread(input)
@@ -14,9 +16,9 @@ def deal_image(input, x1, y1, x2, y2):
 	#img.save('subpixel/data/celebA/test/'+'xyz.jpg', inp)
 	fname = x1+'-'+y1+'-'+x2+'-'+y2+'-'+fname
 	tmp_path = 'tmp/'+fname
-	inp.save(tmp_path)
+	inp.save(tmp_path,'png')
 	#transfer 
-	os.system('python main.py --is_single True')
+	os.system('python main.py --is_single True --file_name %s' % fname)
 	os.system('rm tmp/*')
 	#outpath = transfer(tmp_path)
 	outpath="out_%s" % fname
