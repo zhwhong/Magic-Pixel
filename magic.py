@@ -17,9 +17,11 @@ def deal_image(input, x1, y1, x2, y2,size):
 	#img.save('subpixel/data/celebA/test/'+'xyz.jpg', inp)
 	fname = x1+'-'+y1+'-'+x2+'-'+y2+'-'+fname
 	tmp_path = 'tmp/'+fname
-	inp.save(tmp_path,'png')
+	inp.save(tmp_path)
 	#transfer 
+
 	print"size=",int(size)
+
 	if int(size) == 128:
 		os.system('python main.py --is_single False --is_small False --file_name %s' % fname)
 	else :

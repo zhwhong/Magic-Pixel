@@ -36,6 +36,7 @@ def magic():
         x2 = request.args.get('x2')
         y2 = request.args.get('y2')
         size = request.args.get('size')
+
         print "/magic:size- ==",size
         outpath = deal_image(a, x1, y1, x2, y2, size)
         print img, x1, y1, x2, y2, outpath
