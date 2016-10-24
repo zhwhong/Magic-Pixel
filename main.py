@@ -18,6 +18,7 @@ flags.DEFINE_string("checkpoint_dir", "checkpoint", "Directory name to save the 
 flags.DEFINE_string("sample_dir", "samples", "Directory name to save the image samples [samples]")
 flags.DEFINE_boolean("is_train", False, "True for training, False for testing [False]")
 flags.DEFINE_boolean("is_crop", False, "True for training, False for testing [False]")
+flags.DEFINE_boolean("is_small", True, "True for test 32*32 input, False for test 128*128 input [True]")
 flags.DEFINE_boolean("visualize", False, "True for visualizing, False for nothing [False]")
 FLAGS = flags.FLAGS
 
@@ -40,10 +41,13 @@ def main(_):
         if FLAGS.is_train:
             dcgan.train(FLAGS)
         else:
+            if FLAGS.is_small:
+                dcgan.batch_test2(FLAGS.checkpoint_dir)
+            else:
+                dcgan.batch_test(FLAGS.checkpoint_dir)
             # dcgan.load(FLAGS.checkpoint_dir)
             # dcgan.single_test(FLAGS.checkpoint_dir)
-            # dcgan.batch_test(FLAGS.checkpoint_dir)
-            dcgan.batch_test2(FLAGS.checkpoint_dir)
+
         """
         if FLAGS.visualize:
             to_json("./web/js/layers.js", [dcgan.h0_w, dcgan.h0_b, dcgan.g_bn0],

@@ -95,15 +95,15 @@ class DCGAN(object):
         sample_images = np.array(sample).astype(np.float32)
         sample_input_images = np.array(sample_inputs).astype(np.float32)
 
-        save_images(sample_input_images, [8, 8], './samples/inputs_small.png')
+        save_images(sample_input_images, [8, 8], './samples/inputs_small.jpg')
         '''
         for i in range(len(sample_input_images)):
-            imsave2(sample_input_images[i],'./samples/input_small_%d.png' % (i,))
+            imsave2(sample_input_images[i],'./samples/input_small_%d.jpg' % (i,))
         '''
-        save_images(sample_images, [8, 8], './samples/reference.png')
+        save_images(sample_images, [8, 8], './samples/reference.jpg')
         '''
         for i in range(len(sample_images)):
-            imsave2(sample_images[i],'./samples/reference_%d.png' % (i,))
+            imsave2(sample_images[i],'./samples/reference_%d.jpg' % (i,))
         '''
         counter = 1
         start_time = time.time()
@@ -143,17 +143,17 @@ class DCGAN(object):
                         feed_dict={self.inputs: sample_input_images, self.images: sample_images}
                     )
                     if not have_saved_inputs:
-                        save_images(up_inputs, [8, 8], './samples/inputs.png')
+                        save_images(up_inputs, [8, 8], './samples/inputs.jpg')
                         have_saved_inputs = True
 
                     '''
                     for i in range(len(samples)):
                         print samples[i].shape
-                        imsave2(samples[i],'./samples/valid_%s_%s_%d.png' % (epoch, idx,i))
+                        imsave2(samples[i],'./samples/valid_%s_%s_%d.jpg' % (epoch, idx,i))
                         # save_images(samples,[1,1])
                     '''
                     save_images(samples, [8, 8],
-                                './samples/valid_%s_%s.png' % (epoch, idx))
+                                './samples/valid_%s_%s.jpg' % (epoch, idx))
                     print("[Sample] g_loss: %.8f" % (g_loss))
 
                 if np.mod(counter, 500) == 2:
@@ -220,15 +220,15 @@ class DCGAN(object):
             batch_images = np.array(batch).astype(np.float32)
             batch_inputs = np.array(input_batch).astype(np.float32)
 
-            save_images(batch_inputs, [8, 8], './samples/batch_%d_small_inputs.png'%(idx+1,))
+            save_images(batch_inputs, [8, 8], './samples/batch_%d_small_inputs.jpg'%(idx+1,))
             '''
             for i in range(len(batch_inputs)):
-                imsave2(batch_inputs[i],'./samples/batch_%d_small_inputs_%d.png' % (idx+1,i))
+                imsave2(batch_inputs[i],'./samples/batch_%d_small_inputs_%d.jpg' % (idx+1,i))
             '''
-            save_images(batch_images, [8, 8], './samples/batch_%d_reference.png'%(idx+1,))
+            save_images(batch_images, [8, 8], './samples/batch_%d_reference.jpg'%(idx+1,))
             '''
             for i in range(len(batch_images)):
-                imsave2(batch_images[i],'./samples/batch_%d_reference_%d.png' % (idx+1,i))
+                imsave2(batch_images[i],'./samples/batch_%d_reference_%d.jpg' % (idx+1,i))
             '''
 
             samples, g_loss, up_inputs = self.sess.run(
@@ -236,12 +236,12 @@ class DCGAN(object):
                 feed_dict={ self.inputs: batch_inputs, self.images: batch_images }
             )
 
-            save_images(up_inputs, [8, 8], './samples/batch_%d_scale_straight.png'%(idx+1,))
-            save_images(samples, [8, 8], './samples/batch_%d_test_out.png' % (idx+1,))
+            save_images(up_inputs, [8, 8], './samples/batch_%d_scale_straight.jpg'%(idx+1,))
+            save_images(samples, [8, 8], './samples/batch_%d_test_out.jpg' % (idx+1,))
 
             for i in range(len(samples)):
                 # print samples[i].shape
-                imsave2(samples[i],'./samples/batch_%d_test_out_%d.png' % (idx+1, i))
+                imsave2(samples[i],'./samples/batch_%d_test_out_%d.jpg' % (idx+1, i))
 
             print("[Test batch %d] g_loss: %.8f" % (idx+1, g_loss))
 
@@ -255,15 +255,15 @@ class DCGAN(object):
             batch_images = np.array(batch).astype(np.float32)
             batch_inputs = np.array(input_batch).astype(np.float32)
 
-            save_images(batch_inputs, [8, 8], './samples/batch_remain_small_inputs.png')
+            save_images(batch_inputs, [8, 8], './samples/batch_remain_small_inputs.jpg')
             '''
             for i in range(len(batch_inputs)):
-                imsave2(batch_inputs[i],'./samples/batch_remain_small_inputs_%d.png' % (i,))
+                imsave2(batch_inputs[i],'./samples/batch_remain_small_inputs_%d.jpg' % (i,))
             '''
-            save_images(batch_images, [8, 8], './samples/batch_remain_reference.png')
+            save_images(batch_images, [8, 8], './samples/batch_remain_reference.jpg')
             '''
             for i in range(len(batch_images)):
-                imsave2(batch_images[i],'./samples/batch_remain_reference_%d.png' % (i,))
+                imsave2(batch_images[i],'./samples/batch_remain_reference_%d.jpg' % (i,))
             '''
 
             samples, g_loss, up_inputs = self.sess.run(
@@ -271,12 +271,12 @@ class DCGAN(object):
                 feed_dict={self.inputs: batch_inputs, self.images: batch_images}
             )
 
-            save_images(up_inputs, [8, 8], './samples/batch_remain_scale_straight.png')
-            save_images(samples, [8, 8], './samples/batch_remain_test_out.png')
+            save_images(up_inputs, [8, 8], './samples/batch_remain_scale_straight.jpg')
+            save_images(samples, [8, 8], './samples/batch_remain_test_out.jpg')
 
             for i in range(batch_remain):
                 # print samples[i].shape
-                imsave2(samples[i], './samples/batch_remain_test_out_%d.png' % (i,))
+                imsave2(samples[i], './samples/batch_remain_test_out_%d.jpg' % (i,))
 
             print("[Batch remain] g_loss: %.8f" % (g_loss,))
 
@@ -288,7 +288,7 @@ class DCGAN(object):
             print(" [!] Load checkpoint failed...")
             return
 
-        data = sorted(glob(os.path.join("./data", self.dataset_name, "test", "*.png")))
+        data = sorted(glob(os.path.join("./data", self.dataset_name, "test", "*.jpg")))
         batch_idxs = len(data) // self.batch_size
         batch_remain = len(data) % self.batch_size
         print "Test data length: %d" % (len(data))
@@ -301,19 +301,19 @@ class DCGAN(object):
             batch = [get_image2(batch_file) for batch_file in batch_files]
             batch_inputs = np.array(batch).astype(np.float32)
 
-            save_images(batch_inputs, [8, 8], './samples/batch_%d_small_inputs.png' % (idx + 1,))
+            save_images(batch_inputs, [8, 8], './samples/batch_%d_small_inputs.jpg' % (idx + 1,))
 
             samples, up_inputs = self.sess.run(
                 [self.G, self.up_inputs],
                 feed_dict={ self.inputs: batch_inputs}
             )
 
-            save_images(up_inputs, [8, 8], './samples/batch_%d_scale_straight.png'%(idx+1,))
-            save_images(samples, [8, 8], './samples/batch_%d_test_out.png' % (idx+1,))
+            save_images(up_inputs, [8, 8], './samples/batch_%d_scale_straight.jpg'%(idx+1,))
+            save_images(samples, [8, 8], './samples/batch_%d_test_out.jpg' % (idx+1,))
 
             for i in range(len(samples)):
                 # print samples[i].shape
-                imsave2(samples[i],'./samples/batch_%d_test_out_%d.png' % (idx+1, i))
+                imsave2(samples[i],'./samples/batch_%d_test_out_%d.jpg' % (idx+1, i))
 
         if batch_remain > 0:
             batch_files = data[batch_idxs * self.batch_size: len(data)]
@@ -322,19 +322,19 @@ class DCGAN(object):
             batch = np.concatenate((batch, img_zero))
             batch_inputs = np.array(batch).astype(np.float32)
 
-            save_images(batch_inputs, [8, 8], './samples/batch_remain_small_inputs.png')
+            save_images(batch_inputs, [8, 8], './samples/batch_remain_small_inputs.jpg')
 
             samples, up_inputs = self.sess.run(
                 [self.G, self.up_inputs],
                 feed_dict={self.inputs: batch_inputs}
             )
 
-            save_images(up_inputs, [8, 8], './samples/batch_remain_scale_straight.png')
-            save_images(samples, [8, 8], './samples/batch_remain_test_out.png')
+            save_images(up_inputs, [8, 8], './samples/batch_remain_scale_straight.jpg')
+            save_images(samples, [8, 8], './samples/batch_remain_test_out.jpg')
 
             for i in range(batch_remain):
                 # print samples[i].shape
-                imsave2(samples[i], './samples/batch_remain_test_out_%d.png' % (i,))
+                imsave2(samples[i], './samples/batch_remain_test_out_%d.jpg' % (i,))
 
 
     """
@@ -358,16 +358,16 @@ class DCGAN(object):
             image = np.array(image).astype(np.float32)
             input_image = np.array(input_image).astype(np.float32)
 
-            imsave2(input_image[0], './samples/input_%d.png' % (idx,))
-            imsave2(image[0], './samples/reference_%d.png' % (idx,))
+            imsave2(input_image[0], './samples/input_%d.jpg' % (idx,))
+            imsave2(image[0], './samples/reference_%d.jpg' % (idx,))
 
             sample, g_loss, up_input = self.sess.run(
                 [self.G, self.g_loss, self.up_inputs],
                 feed_dict={ self.inputs: input_image, self.images: image }
             )
 
-            imsave2(up_input[0], './samples/scale_straight_%d.png' % (idx,))
-            imsave2(sample[0], './samples/test_out_%d.png' % (idx,))
+            imsave2(up_input[0], './samples/scale_straight_%d.jpg' % (idx,))
+            imsave2(sample[0], './samples/test_out_%d.jpg' % (idx,))
 
             print("[Test batch %d] g_loss: %.8f" % (idx+1, g_loss))
     """
