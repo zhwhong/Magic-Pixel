@@ -19,7 +19,8 @@
                   				x1: $('#x1').val(),
                   				y1: $('#y1').val(),
                   				x2: $('#x2').val(),
-                  				y2: $('#y2').val()
+                  				y2: $('#y2').val(),
+                                        size: '32'
                 			},
                 			dataType: 'JSON',
                 			type: 'GET',
@@ -30,7 +31,30 @@
 
                 		});
              		});
-        		});
+
+                    $('#Submit2').click(function(){
+                  $.ajax({
+                      url: '/magic',
+                      data:{
+                        img: $('#img').val(),
+                          x1: $('#x1').val(),
+                          y1: $('#y1').val(),
+                          x2: $('#x2').val(),
+                          y2: $('#y2').val(),
+                          size: '128'
+                      },
+                      dataType: 'JSON',
+                      type: 'GET',
+                      success: function(data){
+                         alert(data.result)
+                            $("#result").attr("src",data.result);
+                      }
+
+                    });
+                });
+        		
+
+            });
 	</script>
 	<script type=text/javascript>
         
@@ -79,7 +103,8 @@
         <label><input type="hidden" size="4" id="y2" name="y2" /></label>
         <label><input type="hidden" size="4" id="w" name="w" /></label>
         <label><input type="hidden" size="4" id="h" name="h" /></label>
-        <img width="100px" rotate="3" src="{{ url_for('static', filename='img/jiantou.png') }}" id = "Submit" ">  
+        <img width="100px" rotate="3" src="{{ url_for('static', filename='img/jiantou.png') }}" alt="big image" id = "Submit" ">  
+        <img width="100px" rotate="3" src="{{ url_for('static', filename='img/jiantou2.png') }}" alt="no mosaic" id = "Submit2" ">  
       </div>
 
   </form>
