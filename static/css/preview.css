@@ -3,11 +3,10 @@
    been placed within the Jcrop widget */
 .jcrop-holder #preview-pane{
   display: block;
-  position: relative;
+  position: absolute;
   z-index: 2000;
+  left: -0px;
   top: 0px;
-  right: 0px;
-  margin: 100px 0 0 0;
   padding: 6px;
   border: 1px rgba(0,0,0,.4) solid;
   background-color: white;
