@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> magic pixel</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/base.css') }}" >
+	<script type="text/javascript" src = "{{ url_for('static', filename='js/demo.js') }}"></script>
+
+</head>
+<body>
+	<div id = "test">123</div>
+	<form action="{{ url_for('upload') }}" method="post"  enctype="multipart/form-data" id="form1">
+       		<input type="file" name="photo" style="width:250px;" /><br>
+        		<input type="submit" name="Submit" value="Upload" />
+       	</form>
+</body>
+</html>

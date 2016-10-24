@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> magic pixel</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.Jcrop.min.css') }}" type="text/css" />
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/preview.css') }}" type="text/css" />
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/my.css') }}" type="text/css" />
+	<script type="text/javascript" src = "{{ url_for('static', filename='js/jquery-3.1.1.min.js') }}"></script>
+	<script type="text/javascript" src = "{{ url_for('static', filename='js/jquery.Jcrop.min.js') }}"></script>
+	<script type="text/javascript" src = "{{ url_for('static', filename='js/myJcrop.js') }}"></script>
+	<script type="text/javascript">
+		$(function() {
+            			$('#Submit').click(function(){
+              		$.ajax({
+                			url: '/magic',
+                			data:{
+                				img: $('#img').val(),
+                  				x1: $('#x1').val(),
+                  				y1: $('#y1').val(),
+                  				x2: $('#x2').val(),
+                  				y2: $('#y2').val()
+                			},
+                			dataType: 'JSON',
+                			type: 'GET',
+                			success: function(data){
+                				// alert(data.result)
+                    				$("#result").attr("src",data.result);
+                			}
+                		});
+             		});
+        		});
+	</script>
+	<script type=text/javascript>
+        
+  </script>
+</head>
+<body>
+       <div id="imgPlace">
+      		<img src="{{ image }}" id="target" >
+       		<!-- <img src="../zjm.jpg" id = "target"> -->
+     	</div>
+     	<div id="preview-pane">
+   	 	<div class="preview-container">
+     			<img src="{{ image }}" class="jcrop-preview" alt="Preview" />
+     			<!-- <img src="../zjm.jpg" class="jcrop-preview" alt="Preview" /> -->
+    		</div>
+  	</div>
+      <div id="result-pane">
+              <div class="result-container">
+                    <img src="{{ url_for('static', filename='img/lanshou.jpg') }}" class="result" alt="Result" id="result"/>
+              <!-- <img src="../zjm.jpg" class="jcrop-preview" alt="Preview" /> -->
+              </div>
+      </div>
+
+  	<!-- This is the form that our event handler fills -->
+  	<form id="coords" class="coords" method="" action="">
+
+    	<div class="inline-labels">
+    		<label>image <input type="text" size="30" id = "img" name="img" value = {{ image }}/></label>
+    		<label>X1 <input type="text" size="4" id="x1" name="x1" /></label>
+    		<label>Y1 <input type="text" size="4" id="y1" name="y1" /></label>
+    		<label>X2 <input type="text" size="4" id="x2" name="x2" /></label>
+    		<label>Y2 <input type="text" size="4" id="y2" name="y2" /></label>
+    		<label>W <input type="text" size="4" id="w" name="w" /></label>
+    		<label>H <input type="text" size="4" id="h" name="h" /></label>
+    		<input type="button" name="Submit" id = "Submit" value="Magic" />
+    	</div>
+
+  </form>
+
+
+</body>
+</html>
