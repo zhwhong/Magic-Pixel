@@ -12,14 +12,14 @@ def deal_image(input, x1, y1, x2, y2):
 	box = (int(x1),int(y1),int(x2),int(y2))
 	print box
 	img = im.crop(box)
-	inp = img.resize((128, 128))
+	inp = img.resize((32, 32))
 	#img.save('subpixel/data/celebA/test/'+'xyz.jpg', inp)
 	fname = x1+'-'+y1+'-'+x2+'-'+y2+'-'+fname
 	tmp_path = 'tmp/'+fname
 	inp.save(tmp_path,'png')
 	#transfer 
 	os.system('python main.py --is_single True --file_name %s' % fname)
-	# os.system('rm tmp/*')
+	os.system('rm tmp/*')
 	#outpath = transfer(tmp_path)
 	outpath="out_%s" % fname
 	print outpath
