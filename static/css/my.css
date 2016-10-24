@@ -21,19 +21,28 @@
 	position: absolute;
 	top:0px;
 	left: 0px;
-	margin: 100px;
 }
 
 #result-pane .result-container {
-  width: 128px;
-  height: 128px;
   overflow: hidden;
 }
 
 #preview-pane,#result-pane{
-  position: relative;
-    margin-left: auto;
-    margin-right: auto;
+  position: absolute;
     float: left;
-    border: 20px solid red;
+}
+
+#top{
+  width: 350px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#imgPlace{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#coords{
+  margin-left: auto;
+  margin-right: auto;
 }

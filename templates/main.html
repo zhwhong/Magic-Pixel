@@ -8,6 +8,7 @@
 	<script type="text/javascript" src = "{{ url_for('static', filename='js/jquery-3.1.1.min.js') }}"></script>
 	<script type="text/javascript" src = "{{ url_for('static', filename='js/jquery.Jcrop.min.js') }}"></script>
 	<script type="text/javascript" src = "{{ url_for('static', filename='js/myJcrop.js') }}"></script>
+       <script type="text/javascript" src = "{{ url_for('static', filename='js/upload.js') }}"></script>
 	<script type="text/javascript">
 		$(function() {
             			$('#Submit').click(function(){
@@ -38,7 +39,7 @@
         <div id = "top">
 
         <form action="{{ url_for('upload') }}" method="post"  enctype="multipart/form-data" id="form1">
-            <input type="file" name="photo" style="width:250px;" /><br>
+            <input type="file" name="photo" style="width:250px;" />
             <input type="submit" name="Submit" value="Upload" />
         </form>
 
@@ -72,7 +73,7 @@
       </div>
 
   </form>
-  
+
       <div id="result-pane">
               <div class="result-container">
                     <img src="{{ url_for('static', filename='img/lanshou.jpg') }}" class="result" alt="Result" id="result"/>
