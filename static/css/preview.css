@@ -3,14 +3,15 @@
    been placed within the Jcrop widget */
 .jcrop-holder #preview-pane{
   display: block;
-  position: absolute;
+  position: relative;
   z-index: 2000;
-  top: 10px;
-  right: -280px;
+  top: 0px;
+  right: 0px;
+  margin: 100px 0 0 0;
   padding: 6px;
   border: 1px rgba(0,0,0,.4) solid;
   background-color: white;
-
+  clear: both
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;

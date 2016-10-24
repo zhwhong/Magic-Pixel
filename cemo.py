@@ -16,8 +16,9 @@ configure_uploads(app, photos)
 def upload():
     if request.method == 'POST' and 'photo' in request.files:
         filename = photos.save(request.files['photo'])
-        return redirect(url_for('show', filename=filename))
-    return render_template('index.html')
+        url = photos.url(filename)
+        return render_template('main.html', image=url)
+    return render_template('main.html',image= url_for('static', filename='img/lanshou.jpg') )
 
 @app.route('/photo/<filename>')
 def show(filename):

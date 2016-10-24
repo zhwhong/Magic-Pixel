@@ -23,7 +23,7 @@
                 			dataType: 'JSON',
                 			type: 'GET',
                 			success: function(data){
-                				// alert(data.result)
+                				 alert(data.result)
                     				$("#result").attr("src",data.result);
                 			}
                 		});
@@ -35,16 +35,44 @@
   </script>
 </head>
 <body>
+        <div id = "top">
+
+        <form action="{{ url_for('upload') }}" method="post"  enctype="multipart/form-data" id="form1">
+            <input type="file" name="photo" style="width:250px;" /><br>
+            <input type="submit" name="Submit" value="Upload" />
+        </form>
+
+        </div>        
+
        <div id="imgPlace">
       		<img src="{{ image }}" id="target" >
        		<!-- <img src="../zjm.jpg" id = "target"> -->
      	</div>
+      <div id = "bottom">
+        
      	<div id="preview-pane">
    	 	<div class="preview-container">
      			<img src="{{ image }}" class="jcrop-preview" alt="Preview" />
      			<!-- <img src="../zjm.jpg" class="jcrop-preview" alt="Preview" /> -->
     		</div>
   	</div>
+
+        <!-- This is the form that our event handler fills -->
+    <form id="coords" class="coords" method="" action="">
+
+      <div class="inline-labels">
+        <label><input type="hidden" size="30" id = "img" name="img" value = {{ image }}/></label>
+        <label><input type="hidden" size="4" id="x1" name="x1" /></label>
+        <label><input type="hidden" size="4" id="y1" name="y1" /></label>
+        <label><input type="hidden" size="4" id="x2" name="x2" /></label>
+        <label><input type="hidden" size="4" id="y2" name="y2" /></label>
+        <label><input type="hidden" size="4" id="w" name="w" /></label>
+        <label><input type="hidden" size="4" id="h" name="h" /></label>
+        <input type="button" name="Submit" id = "Submit" value="Magic" />
+      </div>
+
+  </form>
+  
       <div id="result-pane">
               <div class="result-container">
                     <img src="{{ url_for('static', filename='img/lanshou.jpg') }}" class="result" alt="Result" id="result"/>
@@ -52,21 +80,9 @@
               </div>
       </div>
 
-  	<!-- This is the form that our event handler fills -->
-  	<form id="coords" class="coords" method="" action="">
+      </div>
 
-    	<div class="inline-labels">
-    		<label>image <input type="text" size="30" id = "img" name="img" value = {{ image }}/></label>
-    		<label>X1 <input type="text" size="4" id="x1" name="x1" /></label>
-    		<label>Y1 <input type="text" size="4" id="y1" name="y1" /></label>
-    		<label>X2 <input type="text" size="4" id="x2" name="x2" /></label>
-    		<label>Y2 <input type="text" size="4" id="y2" name="y2" /></label>
-    		<label>W <input type="text" size="4" id="w" name="w" /></label>
-    		<label>H <input type="text" size="4" id="h" name="h" /></label>
-    		<input type="button" name="Submit" id = "Submit" value="Magic" />
-    	</div>
 
-  </form>
 
 
 </body>

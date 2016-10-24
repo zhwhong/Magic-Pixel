@@ -12,6 +12,7 @@ def deal_image(input, x1, y1, x2, y2):
 	img = im.crop(box)
 	inp = img.resize((32, 32))
 	#img.save('subpixel/data/celebA/test/'+'xyz.jpg', inp)
+	fname = x1+'-'+y1+'-'+x2+'-'+y2+'-'+fname
 	tmp_path = 'tmp/'+fname
 	inp.save(tmp_path)
 	#transfer 
