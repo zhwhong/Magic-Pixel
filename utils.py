@@ -44,7 +44,7 @@ def imsave(images, size, path):
     return scipy.misc.imsave(path, merge(images, size)) 
 
 def imsave2(images, path):
-    return scipy.misc.imsave(path,  images) 
+    return scipy.misc.imsave(path,  images)
 
 def center_crop(x, crop_h, crop_w=None, resize_w=128):
     if crop_w is None:
