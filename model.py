@@ -263,7 +263,7 @@ class DCGAN(object):
 
             save_images(batch_inputs, [8, 8], './samples/batch_remain_small_inputs.jpg')
             '''
-            for i in range(len(batch_inputs)):
+            for i in range(len(batch_remain)):
                 imsave2(batch_inputs[i],'./samples/batch_remain_small_inputs_%d.jpg' % (i,))
             '''
             save_images(batch_images, [8, 8], './samples/batch_remain_reference.jpg')
