@@ -35,10 +35,12 @@ def magic():
         y1 = request.args.get('y1')
         x2 = request.args.get('x2')
         y2 = request.args.get('y2')
-        outpath = deal_image(a, x1, y1, x2, y2)
+        size = request.args.get('size')
+        outpath = deal_image(a, x1, y1, x2, y2, size)
         print img, x1, y1, x2, y2, outpath
         outpath = photos.url(outpath)
         return jsonify(result= outpath)
+
 
 if __name__ == '__main__':
     app.run(debug=True) 
