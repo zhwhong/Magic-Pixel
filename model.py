@@ -431,7 +431,7 @@ class DCGAN(object):
 
         print "Process all %d images successfully !!!" % (batch_idxs,)
 
-    def single_test(self, checkpoint_dir):
+    def single_test(self, checkpoint_dir, file_name):
         """
         input ->1*32*32
         output -> 1*128*128
@@ -464,4 +464,4 @@ class DCGAN(object):
 
             for i in range(batch_remain):
                 # print samples[i].shape
-                imsave2(samples[i], './uploads/out_%s' % data[0].split('/')[-1])
+                imsave2(samples[i], './uploads/out_%s' % file_name)
