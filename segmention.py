@@ -9,16 +9,21 @@ def imread(path):
 def imsave(images, path):
     scipy.misc.imsave(path, images)
 
-def splitImage(srcpath,  dstpath):
+def splitImage(srcpath):
     img = Image.open(srcpath)
-    num = 0
+    image = []
+    # num = 0
     rowheight = 32
     colwidth = 32
     for r in xrange(8):
         for c in xrange(8):
             box = (c*rowheight, r*colwidth, (c+1)*rowheight, (r+1)*colwidth)
-            print box
-            img.crop(box).save(os.path.join(dstpath, 'split_%02d.jpg'%(num,)), 'jpeg')
-            num += 1
+            image.append(np.array(img.crop(box)))
+            # img.crop(box).save(os.path.join(dstpath, 'split_%02d.jpg'%(num,)), 'jpeg')
+            # num += 1
+    return image
+
+'''
 if __name__ == '__main__':
     splitImage('321.jpg','dcmx')
+'''
