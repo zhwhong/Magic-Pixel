@@ -19,7 +19,6 @@ def deal_image(input, x1, y1, x2, y2):
 	inp.save(tmp_path,'png')
 	#transfer 
 	os.system('python main.py --is_single True --file_name %s' % fname)
-	os.system('rm tmp/*')
 	#outpath = transfer(tmp_path)
 	outpath="out_%s" % fname
 	print outpath
