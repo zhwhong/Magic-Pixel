@@ -1,6 +1,6 @@
 import os
 import numpy as np
-
+import scipy.misc
 from model import DCGAN
 from utils import pp, visualize, to_json
 

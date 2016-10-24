@@ -4,6 +4,7 @@ import time
 from glob import glob
 import tensorflow as tf
 import numpy as np
+import scipy.misc
 from six.moves import xrange
 from scipy.misc import imresize
 from subpixel import PS
