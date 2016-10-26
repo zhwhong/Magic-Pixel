@@ -89,8 +89,10 @@ ENV/
 .ropeproject
 
 data/
-checkpoint/
+# checkpoint/
 ckpt_back/
 samples/
 logs/
 .idea/
+tmp/
+uploads/
